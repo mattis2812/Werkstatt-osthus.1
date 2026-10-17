@@ -25,7 +25,9 @@ Alle Einstellungen stehen oben in `assets/js/main.js` im Objekt `CONFIG`.
    - Jede Anfrage kommt dann als E-Mail an. Sie enthält einen Link **„TERMIN BESTÄTIGEN“**, der eine fertig formulierte Bestätigungs-Mail an den Kunden öffnet. Nur noch auf „Senden“ klicken. Daneben gibt es einen Link „Anderen Termin vorschlagen“. Einfaches „Antworten“ geht ebenfalls direkt an den Kunden.
    - Solange kein Schlüssel eingetragen ist, bietet das Formular den Versand über das E-Mail-Programm des Kunden an.
 3. **Gutachten-Link**: in `leistungen.html` den Platzhalter „Link zur Gutachten-Website folgt“ durch den echten Link ersetzen.
-4. **Fotos**: Andre Osthus (`werkstatt.html`, Platzhalter „Foto folgt“) und Außenansicht (`werkstatt.html`).
+4. **Fotos**: Platzhalter „Foto folgt“ gegen echte Bilder tauschen.
+   - Startseite, Bereich „Ihr Ansprechpartner“: Andre Osthus, Außenansicht.
+   - `werkstatt.html`: Andre Osthus, Außenansicht und unter „Werkstatt und Team“ sechs weitere Plätze (Einfahrt mit Stele, Werkstatt von außen, Andre bei der Arbeit, Team, Werkstatthalle, weiteres Foto).
 5. **Impressum/Datenschutz**: gelb markierte Stellen ergänzen (USt-IdNr., Handwerkskammer, Hoster) und rechtlich prüfen lassen.
 
 ## Fotos
