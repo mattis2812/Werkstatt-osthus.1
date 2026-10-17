@@ -1,7 +1,7 @@
 /* =========================================================
    Meisterwerkstatt Osthus – Stylesheet
    Gestaltung: Fassade der Werkstatt (Anthrazit, Wellblech-Grau,
-   blaue Zierlinie), klare Flächen ohne Überlagerungen.
+   blaue Zierlinie) + Typenschild als Info-Schild, ohne Überlagerungen.
    Layout: breite Bänder, Inhalt in .wrap (max. 1200px).
    ========================================================= */
 
@@ -42,6 +42,10 @@
   --accent-soft: #dbe6f4;
   --ok: #1d8a4b;
   --closed: #b2382f;
+  --plate-1: #e3e6e7;     /* Typenschild (Aluminium) */
+  --plate-2: #b8bec2;
+  --plate-ink: #1d2125;
+  --plate-line: rgba(29, 33, 37, .28);
 
   /* Schrift */
   --f-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
@@ -300,20 +304,13 @@ body::before {
 .hero__text { display: grid; gap: 22px; min-width: 0; }
 .hero h1 span { color: var(--accent); }
 :root .on-dark h1 span { color: #7fb0ec; }
-.hero__visual { min-width: 0; }
-.hero__facts {
-  list-style: none; margin: 6px 0 0; padding: 18px 0 0; display: flex; flex-wrap: wrap; gap: 14px 36px;
-  border-top: 1px solid rgba(232, 235, 237, .16);
-}
-.hero__facts li { display: grid; gap: 2px; min-width: 0; }
-.hero__facts li > span:first-child {
-  font-family: var(--f-mono); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--on-graphite-muted);
-}
+.hero__visual { min-width: 0; display: grid; gap: 16px; }
+.hero__plate { width: 100%; }
 .hero__photo {
   border-radius: var(--r);
   overflow: hidden;
-  aspect-ratio: 4 / 5;
-  max-height: 600px;
+  aspect-ratio: 4 / 3;
+  max-height: 440px;
   width: 100%;
   max-width: 100%;
   margin-left: auto;
@@ -324,6 +321,47 @@ body::before {
   .hero .wrap { grid-template-columns: minmax(0, 1fr); }
   .hero__photo { aspect-ratio: 5 / 4; max-height: none; }
 }
+
+/* ---------- Typenschild ---------- */
+.plate {
+  position: relative;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, .18) 0 1px, transparent 1px 3px),
+    linear-gradient(160deg, var(--plate-1), var(--plate-2));
+  color: var(--plate-ink);
+  border-radius: 4px;
+  padding: 22px 26px 18px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset, 0 24px 48px -20px rgba(0, 0, 0, .55);
+  font-family: var(--f-mono);
+  font-size: .8rem;
+}
+.plate::before, .plate::after, .plate__rivets::before, .plate__rivets::after {
+  content: ""; position: absolute; width: 9px; height: 9px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f4f5f6, #8d9499 70%);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .35);
+}
+.plate::before { top: 8px; left: 8px; }
+.plate::after { top: 8px; right: 8px; }
+.plate__rivets::before { bottom: 8px; left: 8px; }
+.plate__rivets::after { bottom: 8px; right: 8px; }
+.plate__head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  font-family: var(--f-display); font-stretch: 125%; font-weight: 800; font-size: .95rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding-bottom: 10px; margin-bottom: 6px; border-bottom: 1px solid var(--plate-line);
+}
+.plate__head small { font-family: var(--f-mono); font-weight: 500; font-size: .66rem; letter-spacing: .1em; }
+.plate dl { margin: 0; display: grid; grid-template-columns: auto 1fr; }
+.plate dt, .plate dd { margin: 0; padding: 6px 0; border-bottom: 1px dashed var(--plate-line); }
+.plate dt { font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; opacity: .7; padding-right: 16px; align-self: center; }
+.plate dd { text-align: right; font-weight: 500; }
+.plate dd a { text-decoration: none; }
+.plate dd a:hover { text-decoration: underline; }
+.plate dl > :nth-last-child(-n + 2) { border-bottom: 0; }
+.plate .status[data-state="open"] .status__label { color: #136b38; }
+.plate .status[data-state="closed"] .status__label { color: #9a2b23; }
+.plate .status[data-state="open"] .status__dot { background: #1d8a4b; }
+.plate .status[data-state="closed"] .status__dot { background: #b2382f; }
 
 /* ---------- Bänder / Sektionen ---------- */
 .band { padding-block: var(--band); }
@@ -765,6 +803,5 @@ body::before {
   .hero__text > :nth-child(2) { animation-delay: .06s; }
   .hero__text > :nth-child(3) { animation-delay: .12s; }
   .hero__text > :nth-child(4) { animation-delay: .18s; }
-  .hero__text > :nth-child(5) { animation-delay: .24s; }
   @keyframes rise { from { transform: translateY(14px); opacity: .001; } to { transform: none; opacity: 1; } }
 }
