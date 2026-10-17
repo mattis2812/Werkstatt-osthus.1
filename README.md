@@ -29,6 +29,11 @@ Alle Einstellungen stehen oben in `assets/js/main.js` im Objekt `CONFIG`.
    - Startseite, Bereich „Ihr Ansprechpartner“: Andre Osthus, Außenansicht.
    - `werkstatt.html`: Andre Osthus, Außenansicht und unter „Werkstatt und Team“ sechs weitere Plätze (Einfahrt mit Stele, Werkstatt von außen, Andre bei der Arbeit, Team, Werkstatthalle, weiteres Foto).
 5. **Impressum/Datenschutz**: gelb markierte Stellen ergänzen (USt-IdNr., Handwerkskammer, Hoster) und rechtlich prüfen lassen.
+6. **Aussagen prüfen** (Wettbewerbsrecht, § 5 UWG):
+   - „Meisterbetrieb“ nur mit Eintragung in die Handwerksrolle.
+   - „Steuergeräteoptimierung laut Herstellervorgaben“ nur, wenn tatsächlich im Rahmen der Herstellervorgaben gearbeitet wird.
+   - HU/AU: Die Seite stellt klar, dass die Hauptuntersuchung (§ 29 StVZO) von einer Überwachungsorganisation durchgeführt wird und kein Bezug zu den TÜV-Gesellschaften besteht.
+   - Vor dem Livegang alle Texte von einem Anwalt oder der Handwerkskammer prüfen lassen.
 
 ## Fotos
 
