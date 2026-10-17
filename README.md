@@ -18,7 +18,7 @@ Kein Build-Schritt nötig: Ordnerinhalt auf einen beliebigen Webspace hochladen 
 
 Alle Einstellungen stehen oben in `assets/js/main.js` im Objekt `CONFIG`.
 
-1. **Öffnungszeiten**: `oeffnungszeiten` anpassen (derzeit Platzhalter Mo–Fr 08:00–17:00). Die Zeiten werden auf allen Seiten automatisch angezeigt, inklusive „Jetzt geöffnet / Geschlossen“.
+1. **Öffnungszeiten**: eingetragen (Mo–Fr 09:00–17:30). Änderungen nur in `oeffnungszeiten` vornehmen, sie gelten dann automatisch auf allen Seiten, im Info-Schild und in der Anzeige „Jetzt geöffnet / Geschlossen“.
 2. **Terminformular (Web3Forms)**:
    - Auf <https://web3forms.com> mit `info@meisterwerkstatt-osthus.de` kostenlos einen Access Key erstellen.
    - Den Schlüssel bei `web3formsKey` eintragen.
