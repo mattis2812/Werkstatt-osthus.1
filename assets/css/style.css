@@ -755,9 +755,10 @@ body::before {
 
 /* ---------- Rechtstexte ---------- */
 .legal { max-width: 72ch; display: grid; gap: 14px; }
-.legal h2 { font-size: 1.5rem; margin-top: 22px; }
+.legal > * { min-width: 0; }
+.legal h2 { font-size: 1.5rem; margin-top: 22px; overflow-wrap: anywhere; }
 .legal h3 { font-size: 1.12rem; margin-top: 10px; }
-.legal p, .legal li { color: var(--ink); }
+.legal p, .legal li { color: var(--ink); overflow-wrap: anywhere; hyphens: auto; }
 .legal ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
 .todo {
   background: #fff3cd; color: #5a4500; padding: 1px 6px; border-radius: 3px;
