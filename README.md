@@ -1,6 +1,7 @@
 # Website Meisterwerkstatt Osthus
 
-Statische Website (HTML, CSS, JavaScript) für den Kfz-Meisterbetrieb Andre Osthus, Klutestraße 5, 59063 Hamm.
+Statische Website (HTML, CSS, JavaScript), gehostet bei Netlify (Konto der Werkstatt, AV-Vertrag: netlify.com/pdf/netlify-dpa.pdf).
+ für den Kfz-Meisterbetrieb Andre Osthus, Klutestraße 5, 59063 Hamm.
 Kein Build-Schritt nötig: Ordnerinhalt auf einen beliebigen Webspace hochladen (z. B. IONOS, Strato, GitHub Pages, Netlify).
 
 ## Seiten
@@ -28,7 +29,7 @@ Alle Einstellungen stehen oben in `assets/js/main.js` im Objekt `CONFIG`.
 3. **Gutachten-Link**: in `leistungen.html` den Platzhalter „Link zur Gutachten-Website folgt“ durch den echten Link ersetzen.
 4. **Fotos**: Alle „Foto folgt“-Platzhalter sind entfernt, es werden nur echte Werkstattfotos gezeigt.
    - Sehr empfehlenswert: ein Foto von Andre Osthus (Startseite „Ihr Ansprechpartner“ und `werkstatt.html` „Über uns“), ein Teamfoto und eine Außenansicht mit Stele. Neue Bilder als JPG und WebP in `assets/img/` ablegen und dort die bestehenden Bilder austauschen.
-5. **Impressum/Datenschutz**: USt-IdNr. und Handwerkskammer Dortmund sind eingetragen. Gelb markierte Stellen ergänzen (z. B. Hoster) und rechtlich prüfen lassen.
+5. **Impressum/Datenschutz**: USt-IdNr., Handwerkskammer Dortmund und Hoster (Netlify) sind eingetragen. Gelb markierte Stellen ergänzen und rechtlich prüfen lassen.
 6. **Aussagen prüfen** (Wettbewerbsrecht, § 5 UWG):
    - „Meisterbetrieb“ nur mit Eintragung in die Handwerksrolle.
    - „Steuergeräteoptimierung laut Herstellervorgaben“ nur, wenn tatsächlich im Rahmen der Herstellervorgaben gearbeitet wird.
