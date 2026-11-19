@@ -753,7 +753,8 @@ body::before {
 }
 .footer-bottom a { text-decoration: none; }
 .footer-bottom a:hover { color: var(--on-graphite); }
-.footer-bottom nav { display: flex; gap: 18px; }
+.footer-bottom nav { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.callout a { color: var(--accent); font-weight: 600; }
 @media (max-width: 900px) { .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .footer-about { grid-column: 1 / -1; } }
 @media (max-width: 480px) { .footer-grid { grid-template-columns: minmax(0, 1fr); } }
 
