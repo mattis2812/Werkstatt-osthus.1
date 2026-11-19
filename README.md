@@ -1,7 +1,7 @@
 # Website Meisterwerkstatt Osthus
 
-Statische Website (HTML, CSS, JavaScript), gehostet bei Netlify (Konto der Werkstatt, AV-Vertrag: netlify.com/pdf/netlify-dpa.pdf).
- für den Kfz-Meisterbetrieb Andre Osthus, Klutestraße 5, 59063 Hamm.
+Statische Website (HTML, CSS, JavaScript) für den Kfz-Meisterbetrieb Andre Osthus, Klutestraße 5, 59063 Hamm.
+Gehostet bei Netlify im Konto der Werkstatt (AV-Vertrag: netlify.com/pdf/netlify-dpa.pdf).
 Kein Build-Schritt nötig: Ordnerinhalt auf einen beliebigen Webspace hochladen (z. B. IONOS, Strato, GitHub Pages, Netlify).
 
 ## Seiten
