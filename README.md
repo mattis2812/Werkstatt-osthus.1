@@ -49,3 +49,13 @@ Liegen in `assets/img/` als JPG und WebP. Alle Kennzeichen sind verpixelt, Metad
 - Schriften liegen lokal in `assets/fonts/`, es gibt keine Verbindung zu Google Fonts.
 - Google Maps wird erst nach Klick auf „Karte anzeigen“ geladen.
 - Keine Cookies, kein Tracking.
+
+## Sicherheit
+
+Die Website ist rein statisch: kein Admin-Bereich, kein Login, keine Datenbank, keine Preise, keine KI, keine Server-Schlüssel.
+
+- `_headers`: Sicherheits-Header für Netlify (Content-Security-Policy, Schutz vor Einbetten in fremde Seiten, HSTS u. a.).
+- `_redirects`: `/admin`, `/login`, `/wp-admin`, `/.env`, `/.git`, `README.md` usw. liefern immer „Seite nicht gefunden“ (`404.html`).
+- Terminformular: Honigtopf-Feld, Mindest-Ausfüllzeit, höchstens eine Anfrage pro Minute, Längenbegrenzung, Bereinigung von Steuerzeichen, Ausgabe nur maskiert (kein eingeschleustes HTML/Script). Ohne Cookies und ohne Speichern im Browser.
+- Web3Forms-Schlüssel ist absichtlich öffentlich. Im Web3Forms-Konto die erlaubte Domain auf `meisterwerkstatt-osthus.de` beschränken und ggf. den Spam-Filter aktivieren.
+- `.gitignore` schließt `.env` und Schlüsseldateien aus. Geheimnisse gehören nie ins Repo.

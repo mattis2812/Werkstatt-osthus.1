@@ -46,10 +46,10 @@
         <fieldset class="fieldset">
           <legend><span>A</span>Ihr Fahrzeug</legend>
           <div class="fields">
-            <div class="field field--full"><label for="fahrzeug">Marke und Modell</label><input id="fahrzeug" name="fahrzeug" type="text" autocomplete="off" placeholder="z. B. VW Golf 7 1.4 TSI" required></div>
+            <div class="field field--full"><label for="fahrzeug">Marke und Modell</label><input id="fahrzeug" name="fahrzeug" type="text" autocomplete="off" placeholder="z. B. VW Golf 7 1.4 TSI" required maxlength="80"></div>
             <div class="field"><label for="baujahr">Baujahr <span class="opt">(optional)</span></label><input id="baujahr" name="baujahr" type="text" inputmode="numeric" maxlength="4" placeholder="2016"></div>
-            <div class="field"><label for="km">Kilometerstand <span class="opt">(optional)</span></label><input id="km" name="km" type="text" inputmode="numeric" placeholder="98.000"></div>
-            <div class="field field--full"><label for="kennzeichen">Kennzeichen <span class="opt">(optional)</span></label><input id="kennzeichen" name="kennzeichen" type="text" autocapitalize="characters" placeholder="HAM-AB 123"></div>
+            <div class="field"><label for="km">Kilometerstand <span class="opt">(optional)</span></label><input id="km" name="km" type="text" inputmode="numeric" placeholder="98.000" maxlength="9"></div>
+            <div class="field field--full"><label for="kennzeichen">Kennzeichen <span class="opt">(optional)</span></label><input id="kennzeichen" name="kennzeichen" type="text" autocapitalize="characters" placeholder="HAM-AB 123" maxlength="12"></div>
           </div>
         </fieldset>
         <fieldset class="fieldset">
@@ -71,10 +71,10 @@
         <fieldset class="fieldset">
           <legend><span>D</span>Ihre Kontaktdaten</legend>
           <div class="fields">
-            <div class="field field--full"><label for="name">Vor- und Nachname</label><input id="name" name="name" type="text" autocomplete="name" required></div>
-            <div class="field"><label for="telefon">Telefon</label><input id="telefon" name="telefon" type="tel" autocomplete="tel" required placeholder="0171 1234567"></div>
-            <div class="field"><label for="email">E-Mail</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="name@beispiel.de"></div>
-            <div class="field field--full"><label for="nachricht">Nachricht <span class="opt">(optional)</span></label><textarea id="nachricht" name="nachricht" placeholder="Was ist Ihnen aufgefallen? Geräusche, Warnleuchten, Abholadresse …"></textarea></div>
+            <div class="field field--full"><label for="name">Vor- und Nachname</label><input id="name" name="name" type="text" autocomplete="name" required maxlength="80"></div>
+            <div class="field"><label for="telefon">Telefon</label><input id="telefon" name="telefon" type="tel" autocomplete="tel" required placeholder="0171 1234567" maxlength="30"></div>
+            <div class="field"><label for="email">E-Mail</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="name@beispiel.de" maxlength="120"></div>
+            <div class="field field--full"><label for="nachricht">Nachricht <span class="opt">(optional)</span></label><textarea id="nachricht" name="nachricht" maxlength="2000" placeholder="Was ist Ihnen aufgefallen? Geräusche, Warnleuchten, Abholadresse …"></textarea></div>
           </div>
           <label class="hp" for="botcheck">Nicht ausfüllen<input type="checkbox" id="botcheck" name="botcheck" tabindex="-1" autocomplete="off"></label>
         </fieldset>

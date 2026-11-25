@@ -11,6 +11,9 @@ const CONFIG = {
 
   // Zugangsschlüssel von https://web3forms.com (kostenlos, mit info@meisterwerkstatt-osthus.de anlegen).
   // Solange hier der Platzhalter steht, bietet das Formular den Versand per E-Mail-Programm an.
+  // Hinweis: Dieser Schlüssel ist bei Web3Forms absichtlich öffentlich (er steht in jedem Formular im Browser).
+  // Er erlaubt nur das Senden an info@…, nicht das Lesen. Missbrauch verhindern: im Web3Forms-Konto
+  // die erlaubte Domain auf meisterwerkstatt-osthus.de beschränken. Echte Geheimnisse gehören nie in diese Datei.
   web3formsKey: "HIER-WEB3FORMS-ZUGANGSSCHLUESSEL-EINTRAGEN",
 
   // Öffnungszeiten der Werkstatt
@@ -160,6 +163,15 @@ document.querySelectorAll("[data-year]").forEach((el) => { el.textContent = new 
   const form = document.getElementById("booking-form");
   if (!form) return;
 
+  // Spam-Schutz: Bots senden meist sofort nach dem Laden ab und oft mehrfach hintereinander.
+  const GELADEN = Date.now();
+  const MIN_AUSFUELLZEIT_MS = 4000;      // schneller füllt kein Mensch das Formular aus
+  const SPERRZEIT_MS = 60 * 1000;         // höchstens eine Anfrage pro Minute
+  // Bewusst nur im Arbeitsspeicher, nicht im Browser gespeichert (keine Cookies/kein localStorage, § 25 TDDDG).
+  let letzteAnfrageZeit = 0;
+  const letzteAnfrage = () => letzteAnfrageZeit;
+  const merkeAnfrage = () => { letzteAnfrageZeit = Date.now(); };
+
   const nrEl = document.querySelectorAll("[data-anfrage-nr]");
   const d = new Date();
   const pad = (n) => String(n).padStart(2, "0");
@@ -192,22 +204,31 @@ document.querySelectorAll("[data-year]").forEach((el) => { el.textContent = new 
 
   const datumDeutsch = (v) => v ? new Date(v + "T12:00:00").toLocaleDateString("de-DE", { weekday: "long", day: "2-digit", month: "2-digit", year: "numeric" }) : "";
 
+  // Eingaben bereinigen: Steuerzeichen entfernen (verhindert u. a. eingeschleuste Kopfzeilen in E-Mails)
+  // und Länge begrenzen, auch wenn jemand die maxlength-Angaben im Browser umgeht.
+  const sauber = (v, max, mehrzeilig = false) => {
+    let t = String(v || "").normalize("NFC");
+    t = mehrzeilig ? t.replace(/[\u0000-\u0009\u000B-\u001F\u007F]/g, "") : t.replace(/[\u0000-\u001F\u007F]/g, " ");
+    return t.trim().slice(0, max);
+  };
+  const ERLAUBTE_LEISTUNGEN = new Set([...form.querySelectorAll('input[name="leistung"]')].map((el) => el.value));
+
   function daten() {
     const fd = new FormData(form);
-    const leistungen = fd.getAll("leistung");
+    const leistungen = fd.getAll("leistung").filter((l) => ERLAUBTE_LEISTUNGEN.has(l));
     return {
-      name: (fd.get("name") || "").trim(),
-      telefon: (fd.get("telefon") || "").trim(),
-      email: (fd.get("email") || "").trim(),
-      fahrzeug: (fd.get("fahrzeug") || "").trim(),
-      baujahr: (fd.get("baujahr") || "").trim(),
-      kennzeichen: (fd.get("kennzeichen") || "").trim(),
-      km: (fd.get("km") || "").trim(),
+      name: sauber(fd.get("name"), 80),
+      telefon: sauber(fd.get("telefon"), 30),
+      email: sauber(fd.get("email"), 120),
+      fahrzeug: sauber(fd.get("fahrzeug"), 80),
+      baujahr: sauber(fd.get("baujahr"), 4),
+      kennzeichen: sauber(fd.get("kennzeichen"), 12),
+      km: sauber(fd.get("km"), 9),
       leistungen,
       datum: fd.get("wunschtermin"),
       zeit: fd.get("zeitfenster") || "egal",
       holbring: fd.get("holbring") ? "Ja, bitte abholen und zurückbringen" : "Nein",
-      nachricht: (fd.get("nachricht") || "").trim()
+      nachricht: sauber(fd.get("nachricht"), 2000, true)
     };
   }
 
@@ -279,7 +300,18 @@ document.querySelectorAll("[data-year]").forEach((el) => { el.textContent = new 
     if (!form.reportValidity()) return;
 
     const x = daten();
+    // Honigtopf-Feld (für Menschen unsichtbar) oder zu schnell ausgefüllt: still verwerfen
     if (form.querySelector('input[name="botcheck"]').checked) return;
+    if (Date.now() - GELADEN < MIN_AUSFUELLZEIT_MS) return;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x.email) || !/^[0-9+()\/\s-]{6,30}$/.test(x.telefon)) {
+      zeigeFehler("<strong>Bitte prüfen Sie Telefonnummer und E-Mail-Adresse.</strong>");
+      return;
+    }
+    if (Date.now() - letzteAnfrage() < SPERRZEIT_MS) {
+      zeigeFehler(`<strong>Ihre Anfrage ist bereits bei uns.</strong>
+        <span>Bitte warten Sie einen Moment, bevor Sie eine weitere Anfrage senden, oder rufen Sie uns an: <a href="tel:${CONFIG.telefon}">${CONFIG.telefonAnzeige}</a>.</span>`);
+      return;
+    }
 
     if (!CONFIG.web3formsKey || CONFIG.web3formsKey.startsWith("HIER-")) {
       zeigeFehler(`<strong>Der Online-Versand ist noch nicht eingerichtet.</strong>
@@ -323,6 +355,7 @@ document.querySelectorAll("[data-year]").forEach((el) => { el.textContent = new 
       });
       const json = await res.json().catch(() => ({}));
       if (!res.ok || !json.success) throw new Error(json.message || "Versand fehlgeschlagen");
+      merkeAnfrage();
       erfolg(x);
     } catch (err) {
       zeigeFehler(`<strong>Die Anfrage konnte gerade nicht gesendet werden.</strong>

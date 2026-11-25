@@ -1,1 +1,14 @@
+# Netlify-Verknüpfung (lokal)
 .netlify
+
+# Geheimnisse niemals ins Repo
+.env
+.env.*
+*.pem
+*.key
+secrets.*
+
+# System- und Editor-Dateien
+.DS_Store
+Thumbs.db
+node_modules/

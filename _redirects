@@ -1,0 +1,17 @@
+# Typische Angriffs- und Admin-Pfade gibt es auf dieser Website nicht: immer "Seite nicht gefunden".
+# Interne Projektdateien werden ebenfalls nicht ausgeliefert.
+/admin            /404.html  404!
+/admin/*          /404.html  404!
+/login            /404.html  404!
+/wp-admin/*       /404.html  404!
+/wp-login.php     /404.html  404!
+/phpmyadmin/*     /404.html  404!
+/api/*            /404.html  404!
+/.env             /404.html  404!
+/.env.*           /404.html  404!
+/.git/*           /404.html  404!
+/.gitignore       /404.html  404!
+/.netlify/*       /404.html  404!
+/README.md        /404.html  404!
+/_headers         /404.html  404!
+/_redirects       /404.html  404!
