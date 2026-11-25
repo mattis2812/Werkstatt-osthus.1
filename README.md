@@ -11,7 +11,7 @@ Kein Build-Schritt nötig: Ordnerinhalt auf einen beliebigen Webspace hochladen 
 | `index.html` | Startseite: Hero mit Typenschild, Leistungsübersicht, Galerie, Ablauf, Öffnungszeiten, Kontakt |
 | `leistungen.html` | Alle Leistungen im Detail, jeweils mit Button „Termin anfragen“ |
 | `werkstatt.html` | Über uns, Galerie |
-| `termin.html` | Terminanfrage als „Werkstattauftrag“ |
+| `termin.html` | Termin vereinbaren per Telefon |
 | `anfahrt.html` | Kontakt, Google-Maps-Route, Karte (lädt erst nach Klick), Öffnungszeiten |
 | `impressum.html`, `datenschutz.html` | Rechtstexte (Platzhalter gelb markiert) |
 | `rechtliche-hinweise.html` | Haftung für Inhalte und Links, Urheberrecht, Bildnachweis (unten auf jeder Seite verlinkt) |
@@ -22,7 +22,7 @@ Kein Build-Schritt nötig: Ordnerinhalt auf einen beliebigen Webspace hochladen 
 Alle Einstellungen stehen oben in `assets/js/main.js` im Objekt `CONFIG`.
 
 1. **Öffnungszeiten**: eingetragen (Mo–Fr 09:00–17:30). Änderungen nur in `oeffnungszeiten` vornehmen, sie gelten dann automatisch auf allen Seiten, im Info-Schild und in der Anzeige „Jetzt geöffnet / Geschlossen“.
-2. **Terminformular**: läuft ohne Fremddienst. Beim Absenden öffnet sich das E-Mail-Programm des Kunden mit allen Angaben an `info@meisterwerkstatt-osthus.de`. Der Kunde tippt nur noch auf „Senden“. „Antworten“ geht direkt an den Kunden.
+2. **Terminvereinbarung**: bewusst ohne Online-Formular. `termin.html` verweist auf Telefon und Öffnungszeiten.
 3. **Gutachten-Link**: in `leistungen.html` den Platzhalter „Link zur Gutachten-Website folgt“ durch den echten Link ersetzen.
 4. **Fotos**: Alle „Foto folgt“-Platzhalter sind entfernt, es werden nur echte Werkstattfotos gezeigt.
    - Sehr empfehlenswert: ein Foto von Andre Osthus (Startseite „Ihr Ansprechpartner“ und `werkstatt.html` „Über uns“), ein Teamfoto und eine Außenansicht mit Stele. Neue Bilder als JPG und WebP in `assets/img/` ablegen und dort die bestehenden Bilder austauschen.
@@ -53,6 +53,6 @@ Die Website ist rein statisch: kein Admin-Bereich, kein Login, keine Datenbank, 
 
 - `_headers`: Sicherheits-Header für Netlify (Content-Security-Policy, Schutz vor Einbetten in fremde Seiten, HSTS u. a.).
 - `_redirects`: `/admin`, `/login`, `/wp-admin`, `/.env`, `/.git`, `README.md` usw. liefern immer „Seite nicht gefunden“ (`404.html`).
-- Terminformular: Honigtopf-Feld, Mindest-Ausfüllzeit, höchstens eine Anfrage pro Minute, Längenbegrenzung, Bereinigung von Steuerzeichen, Ausgabe nur maskiert (kein eingeschleustes HTML/Script). Ohne Cookies und ohne Speichern im Browser.
-- Kein Formulardienst, keine API-Schlüssel im Browser: Das Formular öffnet nur das E-Mail-Programm des Besuchers.
+- Kein Formular und keine Eingabefelder: Es gibt keine Stelle, an der Besucher Daten oder Code einschleusen können.
+- Kein Formulardienst und keine API-Schlüssel im Browser.
 - `.gitignore` schließt `.env` und Schlüsseldateien aus. Geheimnisse gehören nie ins Repo.
