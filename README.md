@@ -14,6 +14,7 @@ Kein Build-Schritt nötig: Ordnerinhalt auf einen beliebigen Webspace hochladen 
 | `termin.html` | Terminanfrage als „Werkstattauftrag“ |
 | `anfahrt.html` | Kontakt, Google-Maps-Route, Karte (lädt erst nach Klick), Öffnungszeiten |
 | `impressum.html`, `datenschutz.html` | Rechtstexte (Platzhalter gelb markiert) |
+| `rechtliche-hinweise.html` | Haftung für Inhalte und Links, Urheberrecht, Bildnachweis (unten auf jeder Seite verlinkt) |
 | `hinweis-hu-au.html` | Rechtlicher Hinweis zur HU/AU (§ 29 StVZO, DEKRA und KÜS), verlinkt unten auf jeder Seite |
 
 ## Vor dem Livegang ausfüllen
@@ -21,11 +22,7 @@ Kein Build-Schritt nötig: Ordnerinhalt auf einen beliebigen Webspace hochladen 
 Alle Einstellungen stehen oben in `assets/js/main.js` im Objekt `CONFIG`.
 
 1. **Öffnungszeiten**: eingetragen (Mo–Fr 09:00–17:30). Änderungen nur in `oeffnungszeiten` vornehmen, sie gelten dann automatisch auf allen Seiten, im Info-Schild und in der Anzeige „Jetzt geöffnet / Geschlossen“.
-2. **Terminformular (Web3Forms)**:
-   - Auf <https://web3forms.com> mit `info@meisterwerkstatt-osthus.de` kostenlos einen Access Key erstellen.
-   - Den Schlüssel bei `web3formsKey` eintragen.
-   - Jede Anfrage kommt dann als E-Mail an. Sie enthält einen Link **„TERMIN BESTÄTIGEN“**, der eine fertig formulierte Bestätigungs-Mail an den Kunden öffnet. Nur noch auf „Senden“ klicken. Daneben gibt es einen Link „Anderen Termin vorschlagen“. Einfaches „Antworten“ geht ebenfalls direkt an den Kunden.
-   - Solange kein Schlüssel eingetragen ist, bietet das Formular den Versand über das E-Mail-Programm des Kunden an.
+2. **Terminformular**: läuft ohne Fremddienst. Beim Absenden öffnet sich das E-Mail-Programm des Kunden mit allen Angaben an `info@meisterwerkstatt-osthus.de`. Der Kunde tippt nur noch auf „Senden“. „Antworten“ geht direkt an den Kunden.
 3. **Gutachten-Link**: in `leistungen.html` den Platzhalter „Link zur Gutachten-Website folgt“ durch den echten Link ersetzen.
 4. **Fotos**: Alle „Foto folgt“-Platzhalter sind entfernt, es werden nur echte Werkstattfotos gezeigt.
    - Sehr empfehlenswert: ein Foto von Andre Osthus (Startseite „Ihr Ansprechpartner“ und `werkstatt.html` „Über uns“), ein Teamfoto und eine Außenansicht mit Stele. Neue Bilder als JPG und WebP in `assets/img/` ablegen und dort die bestehenden Bilder austauschen.
@@ -57,5 +54,5 @@ Die Website ist rein statisch: kein Admin-Bereich, kein Login, keine Datenbank, 
 - `_headers`: Sicherheits-Header für Netlify (Content-Security-Policy, Schutz vor Einbetten in fremde Seiten, HSTS u. a.).
 - `_redirects`: `/admin`, `/login`, `/wp-admin`, `/.env`, `/.git`, `README.md` usw. liefern immer „Seite nicht gefunden“ (`404.html`).
 - Terminformular: Honigtopf-Feld, Mindest-Ausfüllzeit, höchstens eine Anfrage pro Minute, Längenbegrenzung, Bereinigung von Steuerzeichen, Ausgabe nur maskiert (kein eingeschleustes HTML/Script). Ohne Cookies und ohne Speichern im Browser.
-- Web3Forms-Schlüssel ist absichtlich öffentlich. Im Web3Forms-Konto die erlaubte Domain auf `meisterwerkstatt-osthus.de` beschränken und ggf. den Spam-Filter aktivieren.
+- Kein Formulardienst, keine API-Schlüssel im Browser: Das Formular öffnet nur das E-Mail-Programm des Besuchers.
 - `.gitignore` schließt `.env` und Schlüsseldateien aus. Geheimnisse gehören nie ins Repo.

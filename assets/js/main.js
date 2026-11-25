@@ -9,12 +9,6 @@ const CONFIG = {
   email: "info@meisterwerkstatt-osthus.de",
   adresse: "Klutestraße 5, 59063 Hamm (Westf)",
 
-  // Zugangsschlüssel von https://web3forms.com (kostenlos, mit info@meisterwerkstatt-osthus.de anlegen).
-  // Solange hier der Platzhalter steht, bietet das Formular den Versand per E-Mail-Programm an.
-  // Hinweis: Dieser Schlüssel ist bei Web3Forms absichtlich öffentlich (er steht in jedem Formular im Browser).
-  // Er erlaubt nur das Senden an info@…, nicht das Lesen. Missbrauch verhindern: im Web3Forms-Konto
-  // die erlaubte Domain auf meisterwerkstatt-osthus.de beschränken. Echte Geheimnisse gehören nie in diese Datei.
-  web3formsKey: "HIER-WEB3FORMS-ZUGANGSSCHLUESSEL-EINTRAGEN",
 
   // Öffnungszeiten der Werkstatt
   // 0 = Sonntag, 1 = Montag … 6 = Samstag. Mehrere Zeitfenster möglich, z. B. [["08:00","12:30"],["13:30","17:00"]]
@@ -199,7 +193,6 @@ document.querySelectorAll("[data-year]").forEach((el) => { el.textContent = new 
   });
 
   const msg = document.getElementById("form-msg");
-  const submitBtn = form.querySelector("button[type=submit]");
   const leistungFehler = document.getElementById("leistung-error");
 
   const datumDeutsch = (v) => v ? new Date(v + "T12:00:00").toLocaleDateString("de-DE", { weekday: "long", day: "2-digit", month: "2-digit", year: "numeric" }) : "";
@@ -232,20 +225,6 @@ document.querySelectorAll("[data-year]").forEach((el) => { el.textContent = new 
     };
   }
 
-  function bestaetigungsLinks(x) {
-    const anrede = `Guten Tag ${x.name},`;
-    const an = encodeURIComponent(x.email).replace("%40", "@");
-    const ja = "mailto:" + an +
-      "?subject=" + encodeURIComponent(`Terminbestätigung ${anfrageNr} – Meisterwerkstatt Osthus`) +
-      "&body=" + encodeURIComponent(
-        `${anrede}\n\nvielen Dank für Ihre Anfrage. Wir bestätigen Ihren Termin am ${datumDeutsch(x.datum)} (${x.zeit}) für: ${x.leistungen.join(", ")}.\n\n` +
-        `Bitte bringen Sie Fahrzeugschein und ggf. Serviceheft mit.\n\nMit freundlichen Grüßen\nAndre Osthus\nMeisterwerkstatt Osthus\nKlutestraße 5, 59063 Hamm\nTel. ${CONFIG.telefonAnzeige}`);
-    const alt = "mailto:" + an +
-      "?subject=" + encodeURIComponent(`Ihre Terminanfrage ${anfrageNr} – Terminvorschlag`) +
-      "&body=" + encodeURIComponent(
-        `${anrede}\n\nvielen Dank für Ihre Anfrage. Am ${datumDeutsch(x.datum)} ist leider kein Termin mehr frei. Wir können Ihnen folgenden Termin anbieten:\n\n[Datum / Uhrzeit eintragen]\n\nBitte bestätigen Sie kurz per Antwort oder telefonisch.\n\nMit freundlichen Grüßen\nAndre Osthus\nMeisterwerkstatt Osthus\nTel. ${CONFIG.telefonAnzeige}`);
-    return { ja, alt };
-  }
 
   function zusammenfassung(x) {
     return [
@@ -270,7 +249,7 @@ document.querySelectorAll("[data-year]").forEach((el) => { el.textContent = new 
     msg.scrollIntoView({ block: "nearest", behavior: "smooth" });
   }
 
-  function mailtoFallback(x) {
+  function mailtoLink(x) {
     return "mailto:" + CONFIG.email +
       "?subject=" + encodeURIComponent(`Terminanfrage ${anfrageNr}: ${x.leistungen.join(", ")}`) +
       "&body=" + encodeURIComponent(zusammenfassung(x));
@@ -285,6 +264,8 @@ document.querySelectorAll("[data-year]").forEach((el) => { el.textContent = new 
       ["Fahrzeug", x.fahrzeug],
       ["Rückmeldung an", `${x.email} / ${x.telefon}`]
     ].map(([k, v]) => `<dt>${k}</dt><dd>${escapeHtml(v)}</dd>`).join("");
+    const nochmal = ok.querySelector("[data-mail-again]");
+    if (nochmal) nochmal.href = mailtoLink(x);
     form.hidden = true;
     ok.hidden = false;
     ok.scrollIntoView({ block: "start", behavior: "smooth" });
@@ -308,63 +289,16 @@ document.querySelectorAll("[data-year]").forEach((el) => { el.textContent = new 
       return;
     }
     if (Date.now() - letzteAnfrage() < SPERRZEIT_MS) {
-      zeigeFehler(`<strong>Ihre Anfrage ist bereits bei uns.</strong>
-        <span>Bitte warten Sie einen Moment, bevor Sie eine weitere Anfrage senden, oder rufen Sie uns an: <a href="tel:${CONFIG.telefon}">${CONFIG.telefonAnzeige}</a>.</span>`);
+      zeigeFehler(`<strong>Ihre Anfrage wurde gerade schon in Ihrem E-Mail-Programm geöffnet.</strong>
+        <span>Bitte senden Sie sie dort ab oder warten Sie einen Moment. Sie erreichen uns auch telefonisch: <a href="tel:${CONFIG.telefon}">${CONFIG.telefonAnzeige}</a>.</span>`);
       return;
     }
 
-    if (!CONFIG.web3formsKey || CONFIG.web3formsKey.startsWith("HIER-")) {
-      zeigeFehler(`<strong>Der Online-Versand ist noch nicht eingerichtet.</strong>
-        <span>Senden Sie Ihre Anfrage bitte über Ihr E-Mail-Programm. Alle Angaben sind schon eingetragen:
-        <a href="${mailtoFallback(x)}">Anfrage per E-Mail senden</a>. Oder rufen Sie uns an: <a href="tel:${CONFIG.telefon}">${CONFIG.telefonAnzeige}</a>.</span>`);
-      return;
-    }
-
-    const links = bestaetigungsLinks(x);
-    const payload = {
-      access_key: CONFIG.web3formsKey,
-      subject: `Terminanfrage ${anfrageNr}: ${x.leistungen.join(", ")} – ${datumDeutsch(x.datum)}`,
-      from_name: "Website Meisterwerkstatt Osthus",
-      replyto: x.email,
-      botcheck: "",
-      "Anfrage-Nr.": anfrageNr,
-      "Name": x.name,
-      "Telefon": x.telefon,
-      "email": x.email,
-      "Fahrzeug": x.fahrzeug,
-      "Baujahr": x.baujahr || "–",
-      "Kennzeichen": x.kennzeichen || "–",
-      "Kilometerstand": x.km || "–",
-      "Leistungen": x.leistungen.join(", "),
-      "Wunschtermin": `${datumDeutsch(x.datum)}, ${x.zeit}`,
-      "Hol- und Bringservice": x.holbring,
-      "Nachricht": x.nachricht || "–",
-      "TERMIN BESTÄTIGEN (1 Klick, öffnet fertige Antwort-Mail)": links.ja,
-      "ANDEREN TERMIN VORSCHLAGEN": links.alt,
-      "Kunde anrufen": "tel:" + x.telefon.replace(/[^\d+]/g, "")
-    };
-
-    submitBtn.disabled = true;
-    const label = submitBtn.innerHTML;
-    submitBtn.textContent = "Wird gesendet …";
-    try {
-      const res = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(payload)
-      });
-      const json = await res.json().catch(() => ({}));
-      if (!res.ok || !json.success) throw new Error(json.message || "Versand fehlgeschlagen");
-      merkeAnfrage();
-      erfolg(x);
-    } catch (err) {
-      zeigeFehler(`<strong>Die Anfrage konnte gerade nicht gesendet werden.</strong>
-        <span>Bitte versuchen Sie es erneut, senden Sie sie <a href="${mailtoFallback(x)}">per E-Mail</a>
-        oder rufen Sie an: <a href="tel:${CONFIG.telefon}">${CONFIG.telefonAnzeige}</a>.</span>`);
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = label;
-    }
+    // Versand ohne Fremddienst: Die Anfrage wird im E-Mail-Programm des Kunden geöffnet
+    // und erst gesendet, wenn er dort selbst auf „Senden" tippt.
+    merkeAnfrage();
+    erfolg(x);
+    window.location.href = mailtoLink(x);
   });
 })();
 
